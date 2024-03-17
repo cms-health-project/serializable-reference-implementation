@@ -1,0 +1,27 @@
+{
+    "status": "fail",
+    "version": "1",
+    "serviceId": "service-id",
+    "description": "description",
+    "checks": {
+        "package:check-one": [
+            {
+                "componentId": "check1-component1",
+                "componentType": "system",
+                "status": "pass",
+                "time": "2024-03-19T01:23:45+00:00"
+            }
+        ],
+        "package:check-two": [
+            {
+                "componentId": "check2-component1",
+                "componentType": "system",
+                "status": "fail",
+                "time": "2024-03-19T01:23:45+00:00",
+                "output": "and-output",
+                "observedValue": "observed-value",
+                "observedUnit": "with-unit"
+            }
+        ]
+    }
+}

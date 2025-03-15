@@ -18,6 +18,9 @@ use CmsHealth\Definition\CheckInterface;
 
 class Check implements CheckInterface, \JsonSerializable
 {
+    /**
+     * @var array<CheckResult>
+     */
     private array $checkResults = [];
 
     public function __construct(

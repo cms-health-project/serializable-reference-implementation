@@ -25,7 +25,9 @@ class CheckCollection implements \JsonSerializable
     {
         foreach ($checks as $check) {
             $identifier = $check->getIdentifier();
-            if (!isset($this->checks[$identifier])) {
+            if ($identifier !== ''
+                && !isset($this->checks[$identifier])
+            ) {
                 // There is no check for the identifier, use the check directly.
                 $this->checks[$identifier] = $check;
                 continue;
@@ -38,6 +40,9 @@ class CheckCollection implements \JsonSerializable
         }
     }
 
+    /**
+     * @return array<non-empty-string, Check>
+     */
     public function getChecks(): array
     {
         return $this->checks;
@@ -48,6 +53,17 @@ class CheckCollection implements \JsonSerializable
         return array_keys($this->checks) !== [];
     }
 
+    /**
+     * @return array<non-empty-string, list<array{
+     *    componentId: string,
+     *    componentType: string,
+     *    status: string,
+     *    time: string,
+     *    output?: string,
+     *    observedValue?: string,
+     *    observedUnit?: string
+     *  }>>
+     */
     public function jsonSerialize(): array
     {
         $return = [];

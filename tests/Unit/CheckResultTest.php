@@ -47,6 +47,7 @@ final class CheckResultTest extends TestCase
     {
         $dt = \DateTime::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00');
         $subject = $this->createSubject();
+        self::assertNotFalse($dt);
         self::assertSame($dt->getTimeStamp(), $subject->getTime()->getTimestamp());
     }
 
@@ -89,7 +90,7 @@ final class CheckResultTest extends TestCase
             'component-id',
             'system',
             CheckResultStatus::Fail,
-            \DateTime::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00'),
+            \DateTime::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00') ?: new \DateTime(),
             'value',
             'unit',
             'output',

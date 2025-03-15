@@ -39,6 +39,7 @@ final class HealthCheckTest extends TestCase
     private function createSubject(): HealthCheck
     {
         $time = \DateTime::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00');
+        self::assertNotFalse($time);
         $check1 = new Check('package:check-one');
         $check1->addCheckResults(
             new CheckResult(

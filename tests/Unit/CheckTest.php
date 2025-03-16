@@ -119,11 +119,8 @@ final class CheckTest extends TestCase
         );
     }
 
-    /**
-     * @param non-empty-string $name
-     */
     private function createSubject(string $name = 'fake:name'): Check
     {
-        return new Check($name);
+        return new Check($name ?: 'fake:name');
     }
 }

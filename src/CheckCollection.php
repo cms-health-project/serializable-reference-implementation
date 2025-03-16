@@ -19,7 +19,7 @@ class CheckCollection implements \JsonSerializable
     /**
      * @param array<non-empty-string, Check> $checks
      */
-    public function __construct(private array $checks = []){}
+    public function __construct(private array $checks = []) {}
 
     public function addCheck(Check ...$checks): void
     {

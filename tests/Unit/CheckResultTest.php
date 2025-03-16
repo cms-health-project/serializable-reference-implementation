@@ -45,10 +45,10 @@ final class CheckResultTest extends TestCase
     #[Test]
     public function getTimeReturnsConstructorValue(): void
     {
-        $dt = \DateTime::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00');
+        $dt = \DateTimeImmutable::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00');
         $subject = $this->createSubject();
         self::assertNotFalse($dt);
-        self::assertSame($dt->getTimeStamp(), $subject->getTime()->getTimestamp());
+        self::assertSame($dt->getTimeStamp(), $subject->getTime()?->getTimestamp());
     }
 
     #[Test]
@@ -87,10 +87,10 @@ final class CheckResultTest extends TestCase
     private function createSubject(): CheckResult
     {
         return new CheckResult(
+            CheckResultStatus::Fail,
             'component-id',
             'system',
-            CheckResultStatus::Fail,
-            \DateTime::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00') ?: new \DateTime(),
+            \DateTimeImmutable::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00') ?: new \DateTimeImmutable(),
             'value',
             'unit',
             'output',

@@ -3,6 +3,7 @@
     "version": "1",
     "serviceId": "service-id",
     "description": "description",
+    "time": "2024-03-19T01:23:45+00:00",
     "checks": {
         "package:check-one": [
             {

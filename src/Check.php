@@ -23,9 +23,16 @@ class Check implements CheckInterface, \JsonSerializable
      */
     private array $checkResults = [];
 
+    /**
+     * @param non-empty-string $name
+     */
     public function __construct(
-        private readonly string $identifier,
-    ) {}
+        private readonly string $name,
+    ) {
+        if ($this->name === '') {
+            throw new \InvalidArgumentException('name must be a non-empty string');
+        }
+    }
 
     public function addCheckResults(CheckResult ...$checkResults): void
     {
@@ -35,9 +42,12 @@ class Check implements CheckInterface, \JsonSerializable
         ];
     }
 
-    public function getIdentifier(): string
+    /**
+     * @return non-empty-string
+     */
+    public function getName(): string
     {
-        return $this->identifier;
+        return $this->name;
     }
 
     /**
@@ -45,6 +55,10 @@ class Check implements CheckInterface, \JsonSerializable
      */
     public function getCheckResults(): array
     {
+        if (empty($this->checkResults)) {
+            throw new \RuntimeException('invalid number of check results, at least one is required');
+        }
+
         return array_values($this->checkResults);
     }
 
@@ -53,6 +67,6 @@ class Check implements CheckInterface, \JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        return array_values($this->checkResults);
+        return array_values($this->getCheckResults());
     }
 }

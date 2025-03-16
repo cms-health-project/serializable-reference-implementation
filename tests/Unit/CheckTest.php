@@ -31,17 +31,29 @@ final class CheckTest extends TestCase
     }
 
     #[Test]
-    public function getIdentifierReturnsConstructorValue(): void
+    public function constructorThrowsExceptionOnEmptyName(): void
     {
-        $identifier = 'fake:other-identifier';
-        $subject = $this->createSubject($identifier);
-        self::assertSame($identifier, $subject->getIdentifier());
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->createSubject('');
     }
 
     #[Test]
-    public function getCheckResultsReturnsEmptyArrayAfterCreation(): void
+    public function getNameReturnsConstructorValue(): void
     {
-        self::assertSame([], $this->createSubject()->getCheckResults());
+        $name = 'fake:other-name';
+        $subject = $this->createSubject($name);
+        self::assertSame($name, $subject->getName());
+    }
+
+    #[Test]
+    public function getCheckResultsThrowsExceptionOnMissingCheckResults(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('invalid number of check results, at least one is required');
+
+        $this->createSubject()
+            ->getCheckResults();
     }
 
     #[Test]
@@ -57,9 +69,13 @@ final class CheckTest extends TestCase
     }
 
     #[Test]
-    public function jsonSerializeReturnsEmptyArrayAfterCreationOnDirectCall(): void
+    public function jsonSerializeThrowsExceptionOnMissingCheckResults(): void
     {
-        self::assertSame([], $this->createSubject()->jsonSerialize());
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('invalid number of check results, at least one is required');
+
+        $this->createSubject()
+            ->jsonSerialize();
     }
 
     #[Test]
@@ -75,9 +91,12 @@ final class CheckTest extends TestCase
     }
 
     #[Test]
-    public function jsonEncodeAfterCreationReturnsEmptyArrayJson(): void
+    public function jsonEncodeThrowsExceptionOnMissingCheckResults(): void
     {
-        self::assertSame('[]', \json_encode($this->createSubject(), JSON_THROW_ON_ERROR));
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('invalid number of check results, at least one is required');
+
+        \json_encode($this->createSubject(), JSON_THROW_ON_ERROR);
     }
 
     #[Test]
@@ -100,8 +119,11 @@ final class CheckTest extends TestCase
         );
     }
 
-    private function createSubject(string $identifier = 'fake:identifier'): Check
+    /**
+     * @param non-empty-string $name
+     */
+    private function createSubject(string $name = 'fake:name'): Check
     {
-        return new Check($identifier);
+        return new Check($name);
     }
 }

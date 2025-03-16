@@ -1,2 +1,11 @@
 parameters:
-	ignoreErrors: []
+	ignoreErrors:
+		-
+			message: "#^Method CmsHealthProject\\\\SerializableReferenceImplementation\\\\HealthCheck\\:\\:jsonSerialize\\(\\) should return array\\{status\\: string, version\\: string, serviceId\\: string, description\\: string, time\\?\\: string, checks\\: array\\<non\\-empty\\-string, array\\<int\\|string, array\\{componentId\\: string, componentType\\: string, status\\: string, time\\: string, output\\?\\: string, observedValue\\?\\: string, observedUnit\\?\\: string\\}\\>\\>\\} but returns array\\{status\\: 'fail'\\|'pass'\\|'warn', version\\?\\: non\\-falsy\\-string, serviceId\\?\\: non\\-falsy\\-string, description\\?\\: non\\-falsy\\-string, time\\?\\: non\\-falsy\\-string, checks\\?\\: non\\-empty\\-array\\<non\\-empty\\-string, array\\<int, array\\{componentId\\?\\: string, componentType\\?\\: string, status\\: string, time\\?\\: string, output\\?\\: string, observedValue\\?\\: string, observedUnit\\?\\: string\\}\\>\\>\\}\\.$#"
+			count: 1
+			path: src/HealthCheck.php
+
+		-
+			message: "#^Parameter \\#1 \\$name of method CmsHealthProject\\\\SerializableReferenceImplementation\\\\Tests\\\\Unit\\\\CheckTest\\:\\:createSubject\\(\\) expects non\\-empty\\-string, '' given\\.$#"
+			count: 1
+			path: tests/Unit/CheckTest.php

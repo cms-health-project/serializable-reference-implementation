@@ -6,6 +6,11 @@ parameters:
 			path: tests/Unit/CheckCollectionTest.php
 
 		-
+			message: "#^Method CmsHealthProject\\\\SerializableReferenceImplementation\\\\Tests\\\\Unit\\\\CheckTest\\:\\:createSubject\\(\\) has parameter \\$checkResults with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/Unit/CheckTest.php
+
+		-
 			message: "#^Parameter \\#1 \\$name of class CmsHealthProject\\\\SerializableReferenceImplementation\\\\Check constructor expects non\\-empty\\-string, string given\\.$#"
 			count: 1
 			path: tests/Unit/CheckTest.php

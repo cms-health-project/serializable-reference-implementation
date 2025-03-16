@@ -69,6 +69,17 @@ final class CheckTest extends TestCase
     }
 
     #[Test]
+    public function getCheckResultsReturnsExpectedResultItemAddedViaConstructor(): void
+    {
+        $mockedCheckResult = $this->createMock(CheckResult::class);
+        $subject = $this->createSubject(checkResults: [$mockedCheckResult]);
+
+        $checkResults = $subject->getCheckResults();
+        self::assertCount(1, $checkResults);
+        self::assertSame($mockedCheckResult, reset($checkResults));
+    }
+
+    #[Test]
     public function jsonSerializeThrowsExceptionOnMissingCheckResults(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -119,8 +130,8 @@ final class CheckTest extends TestCase
         );
     }
 
-    private function createSubject(string $name = 'fake:name'): Check
+    private function createSubject(string $name = 'fake:name', array $checkResults = []): Check
     {
-        return new Check($name);
+        return new Check($name, $checkResults);
     }
 }

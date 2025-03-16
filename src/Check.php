@@ -19,15 +19,12 @@ use CmsHealth\Definition\CheckInterface;
 class Check implements CheckInterface, \JsonSerializable
 {
     /**
-     * @var array<CheckResult>
-     */
-    private array $checkResults = [];
-
-    /**
      * @param non-empty-string $name
+     * @param CheckResult[] $checkResults
      */
     public function __construct(
         private readonly string $name,
+        private array $checkResults = []
     ) {
         if ($this->name === '') {
             throw new \InvalidArgumentException('name must be a non-empty string');

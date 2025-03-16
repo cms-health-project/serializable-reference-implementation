@@ -47,9 +47,13 @@ final class CheckTest extends TestCase
     }
 
     #[Test]
-    public function getCheckResultsReturnsEmptyArrayAfterCreation(): void
+    public function getCheckResultsThrowsExceptionOnMissingCheckResults(): void
     {
-        self::assertSame([], $this->createSubject()->getCheckResults());
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('invalid number of check results, at least one is required');
+
+        $this->createSubject()
+            ->getCheckResults();
     }
 
     #[Test]
@@ -65,9 +69,13 @@ final class CheckTest extends TestCase
     }
 
     #[Test]
-    public function jsonSerializeReturnsEmptyArrayAfterCreationOnDirectCall(): void
+    public function jsonSerializeThrowsExceptionOnMissingCheckResults(): void
     {
-        self::assertSame([], $this->createSubject()->jsonSerialize());
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('invalid number of check results, at least one is required');
+
+        $this->createSubject()
+            ->jsonSerialize();
     }
 
     #[Test]
@@ -83,9 +91,12 @@ final class CheckTest extends TestCase
     }
 
     #[Test]
-    public function jsonEncodeAfterCreationReturnsEmptyArrayJson(): void
+    public function jsonEncodeThrowsExceptionOnMissingCheckResults(): void
     {
-        self::assertSame('[]', \json_encode($this->createSubject(), JSON_THROW_ON_ERROR));
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('invalid number of check results, at least one is required');
+
+        \json_encode($this->createSubject(), JSON_THROW_ON_ERROR);
     }
 
     #[Test]

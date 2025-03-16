@@ -55,6 +55,10 @@ class Check implements CheckInterface, \JsonSerializable
      */
     public function getCheckResults(): array
     {
+        if (empty($this->checkResults)) {
+            throw new \RuntimeException('invalid number of check results, at least one is required');
+        }
+
         return array_values($this->checkResults);
     }
 
@@ -63,6 +67,6 @@ class Check implements CheckInterface, \JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        return array_values($this->checkResults);
+        return array_values($this->getCheckResults());
     }
 }

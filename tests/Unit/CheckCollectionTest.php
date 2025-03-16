@@ -68,7 +68,7 @@ final class CheckCollectionTest extends TestCase
     public function hasChecksReturnsTrueAfterAddingCheck(): void
     {
         $mockedCheck = $this->createMock(Check::class);
-        $mockedCheck->method('getIdentifier')->willReturn('test:id');
+        $mockedCheck->method('getName')->willReturn('test:id');
         $subject = $this->createSubject();
         $subject->addCheck($mockedCheck);
 

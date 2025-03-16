@@ -24,13 +24,13 @@ class Check implements CheckInterface, \JsonSerializable
     private array $checkResults = [];
 
     /**
-     * @param non-empty-string $identifier
+     * @param non-empty-string $name
      */
     public function __construct(
-        private readonly string $identifier,
+        private readonly string $name,
     ) {
-        if ($this->identifier === '') {
-            throw new \InvalidArgumentException('identifier must be a non-empty string');
+        if ($this->name === '') {
+            throw new \InvalidArgumentException('name must be a non-empty string');
         }
     }
 
@@ -45,9 +45,9 @@ class Check implements CheckInterface, \JsonSerializable
     /**
      * @return non-empty-string
      */
-    public function getIdentifier(): string
+    public function getName(): string
     {
-        return $this->identifier;
+        return $this->name;
     }
 
     /**

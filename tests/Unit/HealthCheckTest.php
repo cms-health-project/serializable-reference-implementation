@@ -62,23 +62,23 @@ final class HealthCheckTest extends TestCase
         CheckResultStatus $checkResultStatus1 = CheckResultStatus::Pass,
         CheckResultStatus $checkResultStatus2 = CheckResultStatus::Fail,
     ): HealthCheck {
-        $time = \DateTime::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00');
+        $time = \DateTimeImmutable::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00');
         self::assertNotFalse($time);
         $check1 = new Check('package:check-one');
         $check1->addCheckResults(
             new CheckResult(
+                $checkResultStatus1,
                 'check1-component1',
                 'system',
-                $checkResultStatus1,
                 $time,
             ),
         );
         $check2 = new Check('package:check-two');
         $check2->addCheckResults(
             new CheckResult(
+                $checkResultStatus2,
                 'check2-component1',
                 'system',
-                $checkResultStatus2,
                 $time,
                 'observed-value',
                 'with-unit',
@@ -91,6 +91,7 @@ final class HealthCheckTest extends TestCase
             '1',
             'service-id',
             'description',
+            $time,
             $checks,
         );
         return $healthCheck;

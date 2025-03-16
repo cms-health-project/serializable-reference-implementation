@@ -24,6 +24,7 @@ class HealthCheck implements HealthCheckInterface, \JsonSerializable
         private readonly string $version,
         private readonly string $serviceId,
         private readonly string $description,
+        private readonly \DateTimeInterface|null $time,
         private readonly CheckCollection $checks,
     ) {}
 
@@ -68,6 +69,11 @@ class HealthCheck implements HealthCheckInterface, \JsonSerializable
         return $this->description;
     }
 
+    public function getTime(): \DateTimeInterface|null
+    {
+        return $this->time;
+    }
+
     public function getChecks(): array
     {
         return array_values($this->checks->getChecks());
@@ -79,17 +85,19 @@ class HealthCheck implements HealthCheckInterface, \JsonSerializable
      *   version: string,
      *   serviceId: string,
      *   description: string,
+     *   time?: string,
      *   checks: array<non-empty-string, array<int|string, array{componentId: string, componentType: string, status: string, time: string, output?: string, observedValue?: string, observedUnit?: string}>>
      * }
      */
     public function jsonSerialize(): array
     {
-        return [
+        return array_filter([
             'status' => $this->getStatus()->value,
             'version' => $this->version,
             'serviceId' => $this->serviceId,
             'description' => $this->description,
+            'time' => $this->time?->format('Y-m-d\TH:i:sP'),
             'checks' => $this->checks->jsonSerialize(),
-        ];
+        ]);
     }
 }

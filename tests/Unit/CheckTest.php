@@ -31,7 +31,7 @@ final class CheckTest extends TestCase
     }
 
     #[Test]
-    public function constructorThrowsExceptionOnEmptyIdentifier(): void
+    public function constructorThrowsExceptionOnEmptyName(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -39,11 +39,11 @@ final class CheckTest extends TestCase
     }
 
     #[Test]
-    public function getIdentifierReturnsConstructorValue(): void
+    public function getNameReturnsConstructorValue(): void
     {
-        $identifier = 'fake:other-identifier';
-        $subject = $this->createSubject($identifier);
-        self::assertSame($identifier, $subject->getIdentifier());
+        $name = 'fake:other-name';
+        $subject = $this->createSubject($name);
+        self::assertSame($name, $subject->getName());
     }
 
     #[Test]
@@ -120,10 +120,10 @@ final class CheckTest extends TestCase
     }
 
     /**
-     * @param non-empty-string $identifier
+     * @param non-empty-string $name
      */
-    private function createSubject(string $identifier = 'fake:identifier'): Check
+    private function createSubject(string $name = 'fake:name'): Check
     {
-        return new Check($identifier);
+        return new Check($name);
     }
 }

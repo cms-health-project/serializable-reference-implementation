@@ -24,15 +24,15 @@ class CheckCollection implements \JsonSerializable
     public function addCheck(Check ...$checks): void
     {
         foreach ($checks as $check) {
-            $identifier = $check->getIdentifier();
-            if (!isset($this->checks[$identifier])) {
-                // There is no check for the identifier, use the check directly.
-                $this->checks[$identifier] = $check;
+            $name = $check->getName();
+            if (!isset($this->checks[$name])) {
+                // There is no check for the name, use the check directly.
+                $this->checks[$name] = $check;
                 continue;
             }
 
             // Add check results to the exiting check.
-            $this->checks[$identifier]->addCheckResults(
+            $this->checks[$name]->addCheckResults(
                 ...array_values($check->getCheckResults())
             );
         }
@@ -57,10 +57,10 @@ class CheckCollection implements \JsonSerializable
 
     /**
      * @return array<non-empty-string, list<array{
-     *    componentId: string,
-     *    componentType: string,
+     *    componentId?: string,
+     *    componentType?: string,
      *    status: string,
-     *    time: string,
+     *    time?: string,
      *    output?: string,
      *    observedValue?: string,
      *    observedUnit?: string
@@ -69,10 +69,10 @@ class CheckCollection implements \JsonSerializable
     public function jsonSerialize(): array
     {
         $return = [];
-        foreach ($this->getChecks() as $identifier => $check) {
-            $return[$identifier] ??= [];
+        foreach ($this->getChecks() as $name => $check) {
+            $return[$name] ??= [];
             foreach ($check->getCheckResults() as $checkResult) {
-                $return[$identifier][] = $checkResult->jsonSerialize();
+                $return[$name][] = $checkResult->jsonSerialize();
             }
         }
         return $return;

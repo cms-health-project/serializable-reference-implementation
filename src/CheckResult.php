@@ -20,21 +20,21 @@ use CmsHealth\Definition\CheckResultStatus;
 class CheckResult implements CheckResultInterface, \JsonSerializable
 {
     public function __construct(
-        private readonly string $componentId,
-        private readonly string $componentType,
         private readonly CheckResultStatus $status,
-        private readonly \DateTime $time,
+        private readonly string|null $componentId = null,
+        private readonly string|null $componentType = null,
+        private readonly \DateTimeInterface|null $time = null,
         private readonly string|null $observedValue = null,
         private readonly string|null $observedUnit = null,
         private readonly string|null $output = null,
     ) {}
 
-    public function getComponentId(): string
+    public function getComponentId(): string|null
     {
         return $this->componentId;
     }
 
-    public function getComponentType(): string
+    public function getComponentType(): string|null
     {
         return $this->componentType;
     }
@@ -44,9 +44,9 @@ class CheckResult implements CheckResultInterface, \JsonSerializable
         return $this->status;
     }
 
-    public function getObservedValue(): string
+    public function getObservedValue(): string|null
     {
-        return (string)$this->observedValue;
+        return $this->observedValue;
     }
 
     public function getObservedUnit(): string|null
@@ -54,22 +54,22 @@ class CheckResult implements CheckResultInterface, \JsonSerializable
         return (string)$this->observedUnit;
     }
 
-    public function getOutput(): string
+    public function getOutput(): string|null
     {
-        return (string)$this->output;
+        return $this->output;
     }
 
-    public function getTime(): \DateTime
+    public function getTime(): \DateTimeInterface|null
     {
         return $this->time;
     }
 
     /**
      * @return array{
-     *   componentId: string,
-     *   componentType: string,
+     *   componentId?: string,
+     *   componentType?: string,
      *   status: string,
-     *   time: string,
+     *   time?: string,
      *   output?: string,
      *   observedValue?: string,
      *   observedUnit?: string
@@ -77,14 +77,14 @@ class CheckResult implements CheckResultInterface, \JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        $return = [
+        $return = array_filter([
             'componentId' => $this->componentId,
             'componentType' => $this->componentType,
             'status' => $this->status->value,
-            'time' => $this->time->format('Y-m-d\TH:i:sP'),
-        ];
+            'time' => $this->time?->format('Y-m-d\TH:i:sP'),
+        ]);
         if ($this->status !== CheckResultStatus::Pass && !empty($this->output)) {
-            $return['output'] = (string)$this->output;
+            $return['output'] = $this->output;
         }
         if ($this->observedValue !== null && $this->observedValue !== '') {
             $return['observedValue'] = $this->observedValue;
@@ -92,6 +92,7 @@ class CheckResult implements CheckResultInterface, \JsonSerializable
         if ($this->observedUnit !== null && $this->observedUnit !== '') {
             $return['observedUnit'] = $this->observedUnit;
         }
+
         return $return;
     }
 }

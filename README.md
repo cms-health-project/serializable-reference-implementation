@@ -25,7 +25,7 @@ conmposer require "cms-health-project/serializable-reference-implementation"
 Build up the result structure:
 
 ```php
-$time = \DateTime::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00');
+$time = \DateTimeImmutable::createFromFormat('Y-m-d\TH:i:sP', '2024-03-19T01:23:45+00:00');
 $check1 = new Check('package:check-one');
 $check1->addCheckResults(
     new CheckResult(

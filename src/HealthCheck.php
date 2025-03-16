@@ -14,22 +14,43 @@ declare(strict_types=1);
 
 namespace CmsHealthProject\SerializableReferenceImplementation;
 
+use CmsHealth\Definition\CheckResultStatus;
 use CmsHealth\Definition\HealthCheckInterface;
 use CmsHealth\Definition\HealthCheckStatus;
 
 class HealthCheck implements HealthCheckInterface, \JsonSerializable
 {
     public function __construct(
-        private readonly HealthCheckStatus $status,
         private readonly string $version,
         private readonly string $serviceId,
         private readonly string $description,
-        private CheckCollection $checks,
+        private readonly CheckCollection $checks,
     ) {}
 
     public function getStatus(): HealthCheckStatus
     {
-        return $this->status;
+        $checkStatusList = array_reduce(
+            $this->checks->getChecks(),
+            static function (array $statusList, Check $check) {
+                $checkResults = $check->getCheckResults();
+                foreach ($checkResults as $checkResult) {
+                    $statusList[] = $checkResult->getStatus();
+                }
+
+                return $statusList;
+            },
+            [],
+        );
+
+        if (in_array(CheckResultStatus::Fail, $checkStatusList, true)) {
+            return HealthCheckStatus::Fail;
+        }
+
+        if (in_array(CheckResultStatus::Warn, $checkStatusList, true)) {
+            return HealthCheckStatus::Warn;
+        }
+
+        return HealthCheckStatus::Pass;
     }
 
     public function getVersion(): string
@@ -63,11 +84,12 @@ class HealthCheck implements HealthCheckInterface, \JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        $return = [
-            'status' => $this->status->value,
+        return [
+            'status' => $this->getStatus()->value,
             'version' => $this->version,
             'serviceId' => $this->serviceId,
             'description' => $this->description,
+            'checks' => $this->checks->jsonSerialize(),
         ];
     }
 }

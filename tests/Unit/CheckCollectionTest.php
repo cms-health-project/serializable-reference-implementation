@@ -75,8 +75,18 @@ final class CheckCollectionTest extends TestCase
         self::assertTrue($subject->hasChecks());
     }
 
-    private function createSubject(): CheckCollection
+    #[Test]
+    public function hasChecksReturnsTrueAfterAddingCheckViaConstructor(): void
     {
-        return new CheckCollection();
+        $mockedCheck = $this->createMock(Check::class);
+        $mockedCheck->method('getName')->willReturn('test:id');
+        $subject = $this->createSubject([$mockedCheck]);
+
+        self::assertTrue($subject->hasChecks());
+    }
+
+    private function createSubject(array $checks = []): CheckCollection
+    {
+        return new CheckCollection($checks);
     }
 }

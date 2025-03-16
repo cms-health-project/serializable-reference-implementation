@@ -25,9 +25,7 @@ class CheckCollection implements \JsonSerializable
     {
         foreach ($checks as $check) {
             $identifier = $check->getIdentifier();
-            if ($identifier !== ''
-                && !isset($this->checks[$identifier])
-            ) {
+            if (!isset($this->checks[$identifier])) {
                 // There is no check for the identifier, use the check directly.
                 $this->checks[$identifier] = $check;
                 continue;

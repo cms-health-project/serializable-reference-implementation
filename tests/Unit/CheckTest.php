@@ -31,6 +31,14 @@ final class CheckTest extends TestCase
     }
 
     #[Test]
+    public function constructorThrowsExceptionOnEmptyIdentifier(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->createSubject('');
+    }
+
+    #[Test]
     public function getIdentifierReturnsConstructorValue(): void
     {
         $identifier = 'fake:other-identifier';
@@ -100,6 +108,9 @@ final class CheckTest extends TestCase
         );
     }
 
+    /**
+     * @param non-empty-string $identifier
+     */
     private function createSubject(string $identifier = 'fake:identifier'): Check
     {
         return new Check($identifier);

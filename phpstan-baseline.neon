@@ -1,2 +1,6 @@
 parameters:
-	ignoreErrors: []
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$identifier of method CmsHealthProject\\\\SerializableReferenceImplementation\\\\Tests\\\\Unit\\\\CheckTest\\:\\:createSubject\\(\\) expects non\\-empty\\-string, '' given\\.$#"
+			count: 1
+			path: tests/Unit/CheckTest.php

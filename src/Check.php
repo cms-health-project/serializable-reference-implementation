@@ -23,9 +23,16 @@ class Check implements CheckInterface, \JsonSerializable
      */
     private array $checkResults = [];
 
+    /**
+     * @param non-empty-string $identifier
+     */
     public function __construct(
         private readonly string $identifier,
-    ) {}
+    ) {
+        if ($this->identifier === '') {
+            throw new \InvalidArgumentException('identifier must be a non-empty string');
+        }
+    }
 
     public function addCheckResults(CheckResult ...$checkResults): void
     {
@@ -35,6 +42,9 @@ class Check implements CheckInterface, \JsonSerializable
         ];
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function getIdentifier(): string
     {
         return $this->identifier;

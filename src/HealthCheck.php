@@ -58,7 +58,7 @@ class HealthCheck implements HealthCheckInterface, \JsonSerializable
      *   version: string,
      *   serviceId: string,
      *   description: string,
-     *   checks?: array<non-empty-string, array<int|string, array{componentId: string, componentType: string, status: string, time: string, output?: string, observedValue?: string, observedUnit?: string}>>
+     *   checks: array<non-empty-string, array<int|string, array{componentId: string, componentType: string, status: string, time: string, output?: string, observedValue?: string, observedUnit?: string}>>
      * }
      */
     public function jsonSerialize(): array
@@ -69,9 +69,5 @@ class HealthCheck implements HealthCheckInterface, \JsonSerializable
             'serviceId' => $this->serviceId,
             'description' => $this->description,
         ];
-        if ($this->checks->hasChecks()) {
-            $return['checks'] = $this->checks->jsonSerialize();
-        }
-        return $return;
     }
 }

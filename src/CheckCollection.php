@@ -43,6 +43,10 @@ class CheckCollection implements \JsonSerializable
      */
     public function getChecks(): array
     {
+        if (!$this->hasChecks()) {
+            throw new \RuntimeException('invalid number of checks, at least one is required');
+        }
+
         return $this->checks;
     }
 
@@ -65,7 +69,7 @@ class CheckCollection implements \JsonSerializable
     public function jsonSerialize(): array
     {
         $return = [];
-        foreach ($this->checks as $identifier => $check) {
+        foreach ($this->getChecks() as $identifier => $check) {
             $return[$identifier] ??= [];
             foreach ($check->getCheckResults() as $checkResult) {
                 $return[$identifier][] = $checkResult->jsonSerialize();

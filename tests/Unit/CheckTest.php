@@ -121,6 +121,6 @@ final class CheckTest extends TestCase
 
     private function createSubject(string $name = 'fake:name'): Check
     {
-        return new Check($name ?: 'fake:name');
+        return new Check($name);
     }
 }

@@ -1,2 +1,6 @@
 parameters:
 	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$name of class CmsHealthProject\\\\SerializableReferenceImplementation\\\\Check constructor expects non\\-empty\\-string, string given\\.$#"
+			count: 1
+			path: tests/Unit/CheckTest.php

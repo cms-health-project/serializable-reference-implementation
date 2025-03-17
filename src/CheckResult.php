@@ -83,7 +83,7 @@ class CheckResult implements CheckResultInterface, \JsonSerializable
             'status' => $this->status->value,
             'time' => $this->time?->format('Y-m-d\TH:i:sP'),
         ]);
-        if ($this->status !== CheckResultStatus::Pass && !empty($this->output)) {
+        if ($this->output !== null && $this->output !== '') {
             $return['output'] = $this->output;
         }
         if ($this->observedValue !== null && $this->observedValue !== '') {

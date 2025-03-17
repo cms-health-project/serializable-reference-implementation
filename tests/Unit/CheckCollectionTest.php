@@ -29,6 +29,17 @@ final class CheckCollectionTest extends TestCase
     }
 
     #[Test]
+    public function canBeCreatedWithChecks(): void
+    {
+        $check1 = new Check('foo');
+        $check2 = new Check('bar');
+
+        $subject = $this->createSubject([$check1, $check2]);
+
+        self::assertSame(['foo' => $check1, 'bar' => $check2], $subject->getChecks());
+    }
+
+    #[Test]
     public function hasChecksReturnsFalseAfterCreation(): void
     {
         $subject = $this->createSubject();

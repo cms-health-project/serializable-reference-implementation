@@ -16,10 +16,16 @@ namespace CmsHealthProject\SerializableReferenceImplementation;
 
 class CheckCollection implements \JsonSerializable
 {
+    /** @var array<non-empty-string, Check> */
+    private array $checks = [];
+
     /**
-     * @param array<non-empty-string, Check> $checks
+     * @param Check[] $checks
      */
-    public function __construct(private array $checks = []) {}
+    public function __construct(array $checks = [])
+    {
+        array_map($this->addCheck(...), $checks);
+    }
 
     public function addCheck(Check ...$checks): void
     {
